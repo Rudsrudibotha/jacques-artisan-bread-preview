@@ -27,3 +27,7 @@ Browser plugin screenshots were saved from the rendered Chrome page and inspecte
 Fixed during QA: short-screen hero/pinned-frame spacing, anchor offset, and mobile keyboard focus containment. Browser verified chapter navigation and contact destinations; all four images loaded, no console errors/warnings. Local HTML references and image dimensions/alt text checked; JavaScript syntax check passed. Reduced-motion fallback is implemented in CSS and JavaScript (system preference emulation was not available in the browser tool).
 
 The implementation was visually verified against the design specification, with the factual-photo and responsive adaptations above. No material unintended visual or functional mismatches remained in the inspected viewports. This is a photo-motion adaptation of the cinematic reference, not a film recreation. Exact operating hours and official image-use approval remain business-confirmation items.
+
+## Motion revision after user feedback
+
+The initial pinned treatment above is superseded: sections now move continuously through normal document flow. Removed the extended sticky chapter and its extra runway. Kept the composition, typography, photographs and restrained desktop image motion. Per-image progress is measured against its own frame; all layout reads happen before style writes, and offscreen images receive no scroll updates. No transform transitions, interpolation loops or wheel/touch handlers are used. Mobile and reduced-motion layouts are static.
