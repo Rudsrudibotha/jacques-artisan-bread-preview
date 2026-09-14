@@ -47,19 +47,38 @@
     function update() {
       frame = null;
       const viewportHeight = window.innerHeight;
-      const positions = [...active].map((element) => [
+      // A jump can skip a whole scene without an observer intersection change.
+      const candidates = new Set(active);
+      for (const element of scenes) {
+        if ((memory.progress.get(element) || 0) < 1) candidates.add(element);
+      }
+      const positions = [...candidates].map((element) => [
         element,
         element.getBoundingClientRect(),
       ]);
+      const pendingPositions = [...pending].map((element) => [
+        element,
+        element.getBoundingClientRect(),
+      ]);
+      // Complete every layout read before changing paths or reveal classes.
       for (const [element, rect] of positions) {
-        if (rect.bottom > 0 && rect.top < viewportHeight)
+        if (!rect.width || !rect.height) continue;
+        if (rect.bottom <= 0) {
+          if ((memory.progress.get(element) || 0) < 1) {
+            memory.progress.set(element, 1);
+            element.style.setProperty("--story-progress", "1");
+          }
+        } else if (rect.top < viewportHeight) {
           paint(element, rect, viewportHeight);
+        }
+      }
+      for (const [element, rect] of pendingPositions) {
+        if (rect.width && rect.height && rect.top < viewportHeight) reveal(element);
       }
     }
 
     function schedule() {
-      if (active.size && frame === null)
-        frame = window.requestAnimationFrame(update);
+      if (frame === null) frame = window.requestAnimationFrame(update);
     }
 
     function revealFocused(event) {

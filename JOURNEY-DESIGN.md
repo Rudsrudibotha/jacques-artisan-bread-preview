@@ -38,3 +38,9 @@ Live reduced-motion preference handling was tested in an isolated Node controlle
 Evidence: `C:/Users/USER-PC/Documents/Codex/2026-09-14/ca/outputs/food-journey-v2-evidence.json`; representative journey views in `outputs/screenshots/journey-v2/` (`jacques-middle.png`, `cake-middle.png`, `jacques-mobile.png`, `cake-mobile.png`). The checked controller harness is outside the repository in `work/verify-food-story.cjs`.
 
 Remaining limit: live OS/browser preference switching was not exercised through CUA. The isolated controller and CSS fallback were checked. The business's approval and final publication remain separate from this local build.
+
+## Fast-jump regression follow-up
+
+A fresh hero-to-contact jump could skip every IntersectionObserver intersection event, leaving unseen photos pending and the line at zero. The scroll frame now audits unfinished scenes and pending reveal targets independently of the active-scene set, batching all geometry reads before writes. Skipped content becomes visible; passed paths are remembered as complete. Hidden zero-size responsive connectors remain untouched. There is no continuous animation loop and no layout or gallery change.
+
+Regression reproduced on Cake: six above-screen pending targets and progress 0.0000. After the fix, fresh end/contact jumps on both sites leave zero pending targets; return navigation shows every photo/caption at opacity 1 and completed path progress. Four new no-IO fast-jump harness assertions pass per site, alongside the original thirteen preference/focus tests. Evidence: `C:/Users/USER-PC/Documents/Codex/2026-09-14/ca/outputs/food-fast-jump-evidence.json`.
